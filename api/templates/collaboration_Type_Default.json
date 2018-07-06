@@ -1,0 +1,25 @@
+{
+	"obj": "collaboration",
+	"default_type": [
+		{
+			"idDump": 1,
+			"text": "Innovation project",
+			"code": "COLLABPROJINNOV"
+		},
+		{
+			"idDump": 2,
+			"text": "Innovation subject",
+			"code": "COLLABSUBJINNOV"
+		},
+		{
+			"idDump": 3,
+			"text": "Incubation",
+			"code": "COLLABINCUB"
+		},
+		{
+			"idDump": 4,
+			"text": "Investissement",
+			"code": "COLLABINVEST"
+		}
+	]
+}

@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Collaboration Capital</title>
+</head>
+<body>
+<h1>Collaboration Capital</h1>
+{{username}}
+<div>
+	your Password has been changed
+</div>
+</body>
+</html>

@@ -1,0 +1,76 @@
+var mongoose = require('mongoose');
+var gracefulShutdown;
+var dbURI = 'mongodb://localhost:27017/meanAuth4';
+// var dbURI = 'mongodb://localhost:27042/meanAuth4';
+if (process.env.NODE_ENV === 'production') {
+  dbURI = process.env.MONGOLAB_URI;
+}
+mongoose.Promise = global.Promise;
+mongoose.connect(dbURI);
+
+// CONNECTION EVENTS
+mongoose.connection.on('connected', function () {
+  console.log('Mongoose connected to ' + dbURI);
+});
+mongoose.connection.on('error', function (err) {
+  console.log('Mongoose connection error: ' + err);
+});
+mongoose.connection.on('disconnected', function () {
+  console.log('Mongoose disconnected');
+});
+
+// CAPTURE APP TERMINATION / RESTART EVENTS
+// To be called when process is restarted or terminated
+gracefulShutdown = function (msg, callback) {
+  mongoose.connection.close(function () {
+    console.log('Mongoose disconnected through ' + msg);
+    callback();
+  });
+};
+// For nodemon restarts
+process.once('SIGUSR2', function () {
+  gracefulShutdown('nodemon restart', function () {
+    process.kill(process.pid, 'SIGUSR2');
+  });
+});
+// For app termination
+process.on('SIGINT', function () {
+  gracefulShutdown('app termination', function () {
+    process.exit(0);
+  });
+});
+// For Heroku app termination
+process.on('SIGTERM', function () {
+  gracefulShutdown('Heroku app termination', function () {
+    process.exit(0);
+  });
+});
+
+// BRING IN YOUR SCHEMAS & MODELS
+require('./data_schema/users');
+require('./data_schema/image');
+require('./data_schema/video');
+require('./data_schema/account');
+require('./data_schema/organisationtype');
+require('./data_schema/presentation');
+require('./data_schema/member');
+require('./data_schema/project');
+require('./data_schema/successstories');
+require('./data_schema/usertoken');
+require('./data_schema/password-reset');
+require('./data_schema/zone');
+require('./data_schema/team_front');
+require('./data_schema/candidature');
+require('./data_schema/team_community');
+require('./data_schema/questions');
+require('./data_schema/collaboration_type');
+require('./data_schema/invitation_sent');
+require('./data_schema/collaboration-deal');
+require('./data_schema/organistation_invitation');
+require('./data_schema/communitiesList');
+require('./data_schema/communitySubject');
+require('./data_schema/filesData');
+// require('./data_schema/biblioImage');
+
+/* Init value */
+require('./initValue')
